@@ -5,6 +5,8 @@ import { cloneDeep } from 'lodash';
 import PlayerForm from '../components/PlayerForm';
 import bestContrast from 'get-best-contrast-color';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addPlayer, shufflePlayers, clearPlayers } from '../state/actions';
 
 const possibleContrastColors = ['#FFFFFF', '#000000'];
 
@@ -33,13 +35,15 @@ class ShuffleScreen extends Component {
         console.log(results);
         this.setModalVisible(false);
         const clonedData = cloneDeep(this.state.data);
-        clonedData.push({
+        const newPlayer = {
             key: `item-${results.name}`,
-            label: results.name,
+                label: results.name,
             backgroundColor: `${results.color}`,
             textColor: bestContrast(results.color, possibleContrastColors),
-        })
+        };
+        clonedData.push(newPlayer);
         this.setState({data: clonedData});
+        this.props.addPlayer(newPlayer);
     }
 
     cancel = () => {
@@ -48,6 +52,7 @@ class ShuffleScreen extends Component {
 
     clear = () => {
         this.setState({data:[]});
+        this.props.clearPlayers();
     }
 
     renderItem = ({ item, index, move, moveEnd, isActive }) => {
@@ -84,14 +89,16 @@ class ShuffleScreen extends Component {
                     renderItem={this.renderItem}
                     keyExtractor={(item, index) => `draggable-item-${item.key}`}
                     scrollPercent={5}
-                    onMoveEnd={({ data }) => this.setState({ data })}
+                    onMoveEnd={({ data }) => {
+                        this.setState({ data });
+                        this.props.shufflePlayers(data);
+                    }}
                 />
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-evenly'
                 }}>
                     <Button title={'Add'} onPress={() => {
-                        const newState = cloneDeep(this.state);
                         this.setModalVisible(true)
                     }}/>
                     <Button title={'Clear'} onPress={this.clear}/>
@@ -109,4 +116,12 @@ const mapStateToProps = (state) => {
     return { ...state };
 };
 
-export default connect(mapStateToProps)(ShuffleScreen);
+const mapDispatchToProps = dispatch => (
+    bindActionCreators({
+        addPlayer,
+        shufflePlayers,
+        clearPlayers
+    }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShuffleScreen);

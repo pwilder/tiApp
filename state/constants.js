@@ -1,2 +1,3 @@
 export const ADD_PLAYER = 'ADD_PLAYER';
+export const SHUFFLE_PLAYERS = 'SHUFFLE_PLAYERS';
 export const CLEAR_PLAYERS = 'CLEAR_PLAYERS';
