@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     currentPlayerIndex: 0
 };
 
-const players = (state = INITIAL_STATE, action) => {
+const playerData = (state = INITIAL_STATE, action) => {
     let newState;
     switch (action.type) {
         case ADD_PLAYER: {
@@ -35,5 +35,5 @@ const players = (state = INITIAL_STATE, action) => {
 };
 
 export default combineReducers({
-    players,
+    playerData,
 });
