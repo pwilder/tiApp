@@ -7,7 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ShuffleScreen from '../screens/ShuffleScreen';
-import OrderScreen from '../screens/OtherScreen';
+import OrderScreen from '../screens/OrderScreen';
 import OtherScreen from '../screens/OtherScreen';
 
 const config = Platform.select({
@@ -124,7 +124,8 @@ const tabNavigator = createMaterialTopTabNavigator({
   // SettingsStack,
   ShuffleStack,
   OrderStack,
-  OtherStack,
+}, {
+    style: { marginTop: 20 }
 });
 
 tabNavigator.path = '';

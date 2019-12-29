@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addPlayer, shufflePlayers, clearPlayers } from '../state/actions';
 
-const possibleContrastColors = ['#FFFFFF', '#000000'];
+const possibleContrastColors = ['#FFFFFF', '#D9DDDC', '#808508', '#999DA0', '#000000'];
 
 class ShuffleScreen extends Component {
 
@@ -54,13 +54,12 @@ class ShuffleScreen extends Component {
                 onLongPress={move}
                 onPressOut={moveEnd}
             >
-                <Text style={{color: item.textColor}}>{item.label}</Text>
+                <Text style={{color: item.textColor, fontSize: 36}}>{item.label}</Text>
             </TouchableOpacity>
         )
     }
 
     render() {
-        console.log(this.props);
         return (
             <View style={{ flex: 1 }}>
                 <Modal
@@ -72,19 +71,21 @@ class ShuffleScreen extends Component {
                         <PlayerForm onSubmit={this.submit} onCancel={this.cancel}/>
                     </View>
                 </Modal>
-                <DraggableFlatList
-                    data={this.props.playerData.players}
-                    renderItem={this.renderItem}
-                    keyExtractor={(item, index) => `draggable-item-${item.key}`}
-                    scrollPercent={5}
-                    onMoveEnd={({ data }) => {
-                        // this.setState({ data });
-                        this.props.shufflePlayers(data);
-                    }}
-                />
+                <View style={{flexGrow: 1}}>
+                    <DraggableFlatList
+                        data={this.props.playerData.players}
+                        renderItem={this.renderItem}
+                        keyExtractor={(item, index) => `draggable-item-${item.key}`}
+                        scrollPercent={5}
+                        onMoveEnd={({ data }) => {
+                            // this.setState({ data });
+                            this.props.shufflePlayers(data);
+                        }}
+                    />
+                </View>
                 <View style={{
                     flexDirection: 'row',
-                    justifyContent: 'space-evenly'
+                    justifyContent: 'space-evenly',
                 }}>
                     <Button title={'Add'} onPress={() => {
                         this.setModalVisible(true)
@@ -95,6 +96,10 @@ class ShuffleScreen extends Component {
         )
     }
 }
+
+ShuffleScreen.navigationOptions = {
+    header: null,
+};
 
 const styles = StyleSheet.create({
 

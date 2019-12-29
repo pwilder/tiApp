@@ -1,23 +1,26 @@
 import React, {Component} from 'react';
-import {Modal, Text, TextInput, TouchableHighlight, View, Alert, Button} from 'react-native';
+import { View } from 'react-native';
+import CheckBox from 'react-native-check-box'
 
 class OtherScreen extends Component {
-    state = {
-        modalVisible: false,
-    };
-
-    setModalVisible(visible) {
-        this.setState({modalVisible: visible});
+    componentWillMount() {
+        this.setState({
+            checked: true
+        });
     }
 
-    render(props) {
-        console.log('In Other screen');
-        console.log(props);
-        return (
-            <View style={{ padding: 15, flex: 1 }}>
-                <TextInput style={{borderWidth: 2, borderColor: 'lightgrey'}}>Value</TextInput>
-            </View>
-        );
+    render() {
+        return (<View>
+            <CheckBox
+                onClick={()=>{
+                    this.setState({
+                        isChecked:!this.state.isChecked
+                    })
+                }}
+                isChecked={this.state.isChecked}
+                rightText={"CheckBox"}
+            />
+        </View>)
     }
 }
 
